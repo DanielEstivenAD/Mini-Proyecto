@@ -4,27 +4,33 @@ void main(List<String> args) {
   List<String?> aprendices = [];
   List<String?> listaTemas = [];
   List<String?> listaPredefinidaAprendices = [
-    'juan',
-    'daniel',
-    'felipe',
-    'alejandro',
-    'camilo',
-    'alexander',
-    'jacobo',
-    'mateo',
-    'pablo',
-    'andres',
-    'estiven',
-    'tomas',
-    'pepe',
-    'gabriel',
-    'jeferson',
-    'samuel',
-    'manuel',
-    'posada',
-    'jilian',
-    'yeison',
-    'teo'
+    'ANDRES FELIPE SANCHEZ HURTADO',
+    'ANGIE DAHIANA RIOS QUINTERO',
+    'CRISTIAN ALVAREZ ARANZAZU',
+    'DANIEL ESTIVEN ARBOLEDA DUQUE',
+    'DAVID ANDRES MORALES GUAPACHA',
+    'DAVID STIVEN OCAMPO LONDOÑO',
+    'ESTEBAN REYES AGUDELO',
+    'JACOBO GALVIS JIMENEZ',
+    'JAIME ANDRES CALLE SALAZAR',
+    'JEFERSON MAURICIO HERNANDEZ LADINO',
+    'JHON ALEXANDER PINEDA OSORIO',
+    'JOSE MIGUEL SIERRA ARISTIZABAL',
+    'JOSÉ SEBASTIÁN OCAMPO LÓPEZ',
+    'JUAN ANDRES OSORIO GOMEZ',
+    'JUAN DIEGO CALVO OSORIO',
+    'JUAN ESTEBAN LOPEZ CALLE',
+    'JUAN PABLO RIOS ARISTIZABAL',
+    'MARIA PAULA MELO SOLANO',
+    'MIGUEL ANGEL PEÑA JIMENEZ',
+    'SAMUEL CASTAÑO CARDONA',
+    'JUAN JOSÉ POSADA PÉREZ',
+    'ALEJANDRO SERNA LONDOÑO',
+    'JUAN MANUEL ZULUAGA RINCON',
+    'JUAN DANIEL GOMEZ LASERNA',
+    'YERSON STIVEN HERRERA OBANDO',
+    'MATEO HERRERA VARGAS',
+    'ALEJANDRO VALLEJO ESCOBAR'
   ];
   List<String?> listaTemasPredefinida = [
     'vectores',
@@ -38,7 +44,8 @@ void main(List<String> args) {
       cantidadTemas,
       cantidadAprendices,
       cantIntentos,
-      contadorCantidadIntentos;
+      contadorCantidadIntentos,
+      complejidad;
   String? tema, aprendiz;
 
   //MENÚ PRINCIPAL
@@ -83,7 +90,28 @@ void main(List<String> args) {
         print(listaPredefinidaAprendices);
         print("*" * 20);
         for (var i = 0; i < listaTemasPredefinida.length; i++) {
-          print("Indique la complejidad del tema ${listaTemasPredefinida[i]}");
+          // MENU DE COMPLEJIDAD
+          print("Indique la complejidad del tema ${listaTemasPredefinida[i]} ");
+          print("facil: 1");
+          print("medio: 2");
+          print("dificil: 3");
+          print("*" * 50);
+          complejidad = int.parse(stdin.readLineSync()!);
+          while (complejidad < 1 || complejidad > 3) {
+            print("Opción incorrecta");
+            print("*" * 50);
+            print(
+                "Indique la complejidad del tema ${listaTemasPredefinida[i]} ");
+            print("facil: 1");
+            print("medio: 2");
+            print("dificil: 3");
+            print("*" * 50);
+            complejidad = int.parse(stdin.readLineSync()!);
+          }
+          print("*" * 50);
+          print(
+              "La complejidad del tema ${listaTemasPredefinida[i]} es $complejidad");
+          print("*" * 50);
         }
         break;
       case 4:
