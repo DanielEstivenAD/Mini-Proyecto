@@ -1,6 +1,7 @@
 import 'dart:io';
 
 void main(List<String> args) {
+  List<List<String?>> grupos = [];
   List<String?> aprendices = [];
   List<String?> listaTemas = [];
   List<String?> listaPredefinidaAprendices = [
@@ -30,22 +31,35 @@ void main(List<String> args) {
     'JUAN DANIEL GOMEZ LASERNA',
     'YERSON STIVEN HERRERA OBANDO',
     'MATEO HERRERA VARGAS',
-    'ALEJANDRO VALLEJO ESCOBAR'
+    'ALEJANDRO VALLEJO ESCOBAR'
   ];
   List<String?> listaTemasPredefinida = [
-    'vectores',
-    'vectores condicionales',
-    'matrices',
-    'matrices con metodos',
-    'arreglos 3D',
-    'vector de objetos'
+    'exposicion 1',
+    'exposicion 2',
+    'exposicion 3',
+    'exposicion 4',
+    'exposicion 5',
+    'exposicion 6',
+    'exposicion 7',
+    'exposicion 8'
   ];
+  List<int> cantGruposPorExposicion = [
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4
+  ]; // Lista de límites por exposición
   int option1,
       cantidadTemas,
       cantidadAprendices,
       cantIntentos,
       contadorCantidadIntentos,
-      complejidad;
+      conteoAprendices = 0,
+      limite;
   String? tema, aprendiz;
 
   //MENÚ PRINCIPAL
@@ -84,34 +98,34 @@ void main(List<String> args) {
         break;
       case 3:
         print("Las listas predefinidas son las siguientes:");
-        print("La lista de temas es:");
+        print("La lista de temas:");
         print(listaTemasPredefinida);
-        print("La Lista de aprendices es:");
+        print("La Lista de aprendices:");
         print(listaPredefinidaAprendices);
         print("*" * 20);
+        // MENU DE ASIGNACIÓN DE GRUPOS
+        print("Indique cuantos aprendices formarán grupo para el tema");
+        print("Los grupos serán formados de 3 a 4 personas maximo");
+        // Barajar la lista de aprendices de manera aleatoria
+        listaPredefinidaAprendices.shuffle();
+        // Crear los grupos con la lista aprendices ya rebuelta
         for (var i = 0; i < listaTemasPredefinida.length; i++) {
-          // MENU DE COMPLEJIDAD
-          print("Indique la complejidad del tema ${listaTemasPredefinida[i]} ");
-          print("facil: 1");
-          print("medio: 2");
-          print("dificil: 3");
-          print("*" * 50);
-          complejidad = int.parse(stdin.readLineSync()!);
-          while (complejidad < 1 || complejidad > 3) {
-            print("Opción incorrecta");
-            print("*" * 50);
-            print(
-                "Indique la complejidad del tema ${listaTemasPredefinida[i]} ");
-            print("facil: 1");
-            print("medio: 2");
-            print("dificil: 3");
-            print("*" * 50);
-            complejidad = int.parse(stdin.readLineSync()!);
+          limite = cantGruposPorExposicion[i];
+               // Se utiliza para definir la posicion en la que se encuentra el vector cantGruposPorExposicion[i] y así poder saber cuantas personas se agregaran en el siguente grupo
+          List<String?> grupo = []; //Vector para crear la matriz por fila
+          for (var j = 0; j < limite; j++) {
+            if (conteoAprendices < listaPredefinidaAprendices.length) {
+              grupo.add(listaPredefinidaAprendices[conteoAprendices]);
+              conteoAprendices++; // Conteo Aprendices, Vble tipo contador, para saber en que posición de listaPredefinidaAprendices va el proceso de asignaión
+            }
           }
-          print("*" * 50);
-          print(
-              "La complejidad del tema ${listaTemasPredefinida[i]} es $complejidad");
-          print("*" * 50);
+          grupos.add(grupo); //Se agrega la Fila (GRUPO CREADO) a la matriz
+        }
+        // Imprimir los grupos
+        for (var i = 0; i < grupos.length; i++) {
+          print('Grupo para ${listaTemasPredefinida[i]}:');
+          print(grupos[i]);
+          print('*' * 20);
         }
         break;
       case 4:
