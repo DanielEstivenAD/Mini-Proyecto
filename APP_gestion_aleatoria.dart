@@ -104,8 +104,7 @@ void main(List<String> args) {
         print(listaPredefinidaAprendices);
         print("*" * 20);
         // MENU DE ASIGNACIÓN DE GRUPOS
-        print("Indique cuantos aprendices formarán grupo para el tema");
-        print("Los grupos serán formados de 3 a 4 personas maximo");
+        print("Los grupos serán formados de 3 o 4 personas maximo");
         // Barajar la lista de aprendices de manera aleatoria
         listaPredefinidaAprendices.shuffle();
         // Crear los grupos con la lista aprendices ya rebuelta
