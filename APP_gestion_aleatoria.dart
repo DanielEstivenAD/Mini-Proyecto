@@ -59,8 +59,9 @@ void main(List<String> args) {
       cantIntentos,
       contadorCantidadIntentos,
       conteoAprendices = 0,
+      complejidad,
       limite;
-  String? tema, aprendiz;
+  String? tema, aprendiz, cantidadInput;
 
   //MENÚ PRINCIPAL
   do {
@@ -79,13 +80,55 @@ void main(List<String> args) {
     option1 = int.parse(stdin.readLineSync()!);
     switch (option1) {
       case 1:
-        print("cuantos temas agregará");
-        cantidadTemas = int.parse(stdin.readLineSync()!);
-        for (var i = 0; i < cantidadTemas; i++) {
-          print("nombre del tema");
-          tema = stdin.readLineSync();
-          listaTemas.add(tema);
+        while (listaTemas.isEmpty) {
+          print("¿Cuántos temas agregarás?");
+          cantidadInput = stdin
+              .readLineSync(); //Esta función se utiliza para capturar la entrada del usuario, en este caso, para obtener la cantidad de temas que el usuario quiere ingresar.
+
+          if (cantidadInput == null || cantidadInput.isEmpty) {
+            //Esta parte del código verifica si cantidadInput es null o está vacío (isEmpty).
+            print("No ingresaste ningún valor. Intenta nuevamente.");
+            continue;
+            /*Si el usuario no ingresa ningún valor (por ejemplo, solo presiona Enter sin escribir nada),
+       se muestra un mensaje de error y *continue* hace que se vuelva a pedir la entrada de cantidad de temas.
+        Esto evita errores si el usuario no ingresa nada.*/
+          }
+
+          try {
+            // try y catch se utilizan para manejar errores que puedan ocurrir al intentar convertir cantidadInput de String a int utilizando int.parse().
+            cantidadTemas = int.parse(cantidadInput);
+          } catch (e) {
+            print("Ingrese un número válido. Intenta nuevamente.");
+            continue;
+            /*Si int.parse() falla (por ejemplo, si el usuario ingresa algo que no es un número),
+       el código dentro de catch se ejecuta. En este caso, muestra un mensaje de error y continue hace que se vuelva a solicitar la cantidad de temas.*/
+          }
+
+          for (var i = 0; i < cantidadTemas; i++) {
+            print("Nombre del tema ${i + 1}:");
+            tema = stdin.readLineSync();
+            listaTemas.add(tema ??
+                ""); // listaTemas.add(tema ?? "") agrega el valor de tema a listaTemas. Si tema es null, agrega una cadena vacía "".
+
+            /* Después de que el usuario ingresa la cantidad de temas y sus nombres,
+       este bucle for solicita cada nombre de tema y lo agrega a listaTemas.
+       El ?? "" asegura que no se agreguen valores null a la lista, lo cual podría ocurrir si el usuario simplemente presiona Enter sin ingresar un nombre.*/
+          }
+
+          if (listaTemas.every((element) => element!.isEmpty)) {
+            // every() es un método de la clase List que verifica si todos los elementos de la lista cumplen con cierta condición especificada por una función (element.isEmpty en este caso).
+            print("La lista no tiene contenidos válidos. Intenta nuevamente.");
+            listaTemas.clear();
+            /*Después de que el usuario ingresa los nombres de los temas,
+       este if verifica si todos los elementos de listaTemas son cadenas vacías (element.isEmpty).
+       Si es así, muestra un mensaje de error y limpia la lista (listaTemas.clear()), lo que permite que el bucle while vuelva a solicitar los temas.*/
+          }
         }
+
+        print("*" * 50);
+        print("La lista de temas es la siguiente:");
+        print(listaTemas);
+        print("*" * 50);
         break;
       case 2:
         print("cuantos aprendices agregará");
@@ -110,7 +153,7 @@ void main(List<String> args) {
         // Crear los grupos con la lista aprendices ya rebuelta
         for (var i = 0; i < listaTemasPredefinida.length; i++) {
           limite = cantGruposPorExposicion[i];
-               // Se utiliza para definir la posicion en la que se encuentra el vector cantGruposPorExposicion[i] y así poder saber cuantas personas se agregaran en el siguente grupo
+          // Se utiliza para definir la posicion en la que se encuentra el vector cantGruposPorExposicion[i] y así poder saber cuantas personas se agregaran en el siguente grupo
           List<String?> grupo = []; //Vector para crear la matriz por fila
           for (var j = 0; j < limite; j++) {
             if (conteoAprendices < listaPredefinidaAprendices.length) {
