@@ -666,104 +666,106 @@ void main(List<String> args) {
         break;
       case 4:
         do {
-          print('Sub menu para Generar los grupos');
+          print('Submenú para Generar los grupos');
           print('1. Si desea continuar y generarlos');
           print('2. Si desea salir');
+
           option2 = int.parse(stdin.readLineSync()!);
+
           switch (option2) {
             case 1:
-              if (aprendices.length <= 0 || listaTemas.length <= 0) {
-                print(
-                    "las listas no están asignadas manualmente, intentelo de nuevo");
-              }
               print(
                   'Desea utilizar las listas predefinidas para generar los grupos?');
               respuesta = stdin.readLineSync();
-              print("Confirme cuantos intentos desea realizar:");
-              intentos = int.parse(stdin.readLineSync()!);
               if (respuesta!.toUpperCase() == 'SI') {
-                print('utilizará las listas predefinidas');
-              } else if (respuesta.toUpperCase() == 'NO') {
-                print('Utilizara las listas creadas');
+                print('Utilizará las listas predefinidas');
+                print('-' * 50);
+              } else if (respuesta == 'NO') {
+                print('Utilizará las listas creadas');
+              } else {
+                print('Opcion incorrecta intentelo de nuevo');
+                continue;
               }
+
+              print("Confirme cuántos intentos desea realizar:");
+              intentos = int.parse(stdin.readLineSync()!);
               do {
-                contador;
+                grupos1 = [];
+                grupos2 = [];
+                conteoAprendices1 = 0;
+                conteoAprendices2 = 0;
                 if (respuesta.toUpperCase() == 'SI') {
-                  // MENU DE ASIGNACIÓN DE GRUPOS
-                  print('-' * 50);
-                  print('');
-                  // Barajar la lista de aprendices de manera aleatoria
                   listaPredefinidaAprendices.shuffle();
-                  // Crear los grupos con la lista aprendices ya rebuelta
+
                   for (var i = 0; i < listaTemasPredefinida.length; i++) {
                     limite = cantGruposPorExposicion[i];
-                    // Se utiliza para definir la posicion en la que se encuentra el vector cantGruposPorExposicion[i] y así poder saber cuantas personas se agregaran en el siguente grupo
-                    List<String?> grupo1 =
-                        []; //Vector para crear la matriz por fila
+                    List<String?> grupo1 = [];
+
                     for (var j = 0; j < limite; j++) {
                       if (conteoAprendices1 <
                           listaPredefinidaAprendices.length) {
                         grupo1
                             .add(listaPredefinidaAprendices[conteoAprendices1]);
-                        conteoAprendices1++; // Conteo Aprendices, Vble tipo contador, para saber en que posición de listaPredefinidaAprendices va el proceso de asignaión
+                        conteoAprendices1++;
                       }
                     }
-                    grupos1.add(
-                        grupo1); //Se agrega la Fila (GRUPO CREADO) a la matriz
+
+                    grupos1.add(grupo1);
                   }
-                  // Imprimir los grupos
+
                   for (var i = 0; i < grupos1.length; i++) {
                     print('-' * 50);
                     print('Grupo para ${listaTemasPredefinida[i]}:');
                     print(grupos1[i]);
                   }
-                  print('');
                   print('*' * 50);
                 } else if (respuesta.toUpperCase() == 'NO') {
+                  if (aprendices.length <= 0 || listaTemas.length <= 0) {
+                    print(
+                        "Las listas no están asignadas manualmente, inténtelo de nuevo");
+                    continue;
+                  }
                   for (var i = 0; i < listaTemas.length; i++) {
                     print(
-                        'Indique cuantos integrantes que tendra el tema ${listaTemas[i]}');
+                        'Indique cuántos integrantes tendrá el tema ${listaTemas[i]}');
                     cantidad = int.parse(stdin.readLineSync()!);
                     cantGruposPorExposicion2.add(cantidad);
                   }
 
                   print(listaTemas);
                   print(cantGruposPorExposicion2);
-
-                  // MENU DE ASIGNACIÓN DE GRUPOS
-                  // Barajar la lista de aprendices de manera aleatoria
                   aprendices.shuffle();
-                  // Crear los grupos con la lista aprendices ya rebuelta
+
                   for (var i = 0; i < listaTemas.length; i++) {
                     limite = cantGruposPorExposicion2[i];
-                    List<String?> grupo2 =
-                        []; //Vector para crear la matriz por fila
-                    for (var i = 0; i < limite; i++) {
+                    List<String?> grupo2 = [];
+
+                    for (var j = 0; j < limite; j++) {
                       if (conteoAprendices2 < aprendices.length) {
                         grupo2.add(aprendices[conteoAprendices2]);
                         conteoAprendices2++;
                       }
                     }
+
                     grupos2.add(grupo2);
                   }
+
                   for (var i = 0; i < grupos2.length; i++) {
                     print('Grupo para ${listaTemas[i]}:');
                     print(grupos2[i]);
                     print('*' * 20);
                   }
                 }
-              } while (contador < intentos - 1);
+                contador++;
+              } while (contador < intentos);
               break;
             case 2:
-              print('');
-              print('Volviendo al menu');
-              print('');
+              print('Volviendo al menú principal');
               break;
             default:
-              print('Opción incorrecta intentelo de nuevo ');
+              print('Obción incorrecta intente de nuevo');
           }
         } while (option2 != 2);
-
         break;
       case 5:
         print('');
