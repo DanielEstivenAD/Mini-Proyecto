@@ -44,28 +44,30 @@ void main(List<String> args) {
     'exposicion 7',
     'exposicion 8'
   ];
+  // Lista de límites por exposición
   List<int> cantGruposPorExposicion = [3, 3, 3, 3, 3, 4, 4, 4];
-  List<int> cantGruposPorExposicion2 = []; // Lista de límites por exposición
-  int option1,
-      option2,
-      option3,
-      numero,
+  List<int> cantGruposPorExposicion2 = [];
+  int numero,
       cantidadTemas,
       cantidadAprendices,
-      conteoAprendices1 = 0,
-      conteoAprendices2 = 0,
+      conteoAprendices1,
+      conteoAprendices2,
       contador = 0,
       intentos,
-      cantidad,
       limite,
-      participantes;
+      participantes,
+      cantidad2;
   String? tema,
       aprendiz,
       cantidadInput,
       opcionCase1,
       opcionCase2,
       numeroInput,
-      respuesta;
+      respuesta,
+      option1,
+      option2,
+      option3,
+      cantidad;
   //MENÚ PRINCIPAL
   do {
     print("*" * 50);
@@ -73,16 +75,16 @@ void main(List<String> args) {
     print("-" * 50);
     print("1. Agregar temas");
     print("2. Agregar aprendices");
-    print("3. Utilizar listas predefinidas");
+    print("3. Modificar listas predefinidas");
     print("4. Asignar aprendices a los temas");
     print("5. Salir");
     print("-" * 50);
     print("Digite la opcion");
-    option1 = int.parse(stdin.readLineSync()!);
+    option1 = stdin.readLineSync()!;
     print("*" * 50);
     print('');
     switch (option1) {
-      case 1:
+      case '1':
         while (listaTemas.isEmpty) {
           print("*" * 50);
           print("Menú para ingresar los Temas");
@@ -96,41 +98,51 @@ void main(List<String> args) {
             print("No ingresaste ningún valor. Intenta nuevamente.");
             continue;
             /*Si el usuario no ingresa ningún valor (por ejemplo, solo presiona Enter sin escribir nada),
-       se muestra un mensaje de error y *continue* hace que se vuelva a pedir la entrada de cantidad de temas.
-        Esto evita errores si el usuario no ingresa nada.*/
+            se muestra un mensaje de error y *continue* hace que se vuelva a pedir la entrada de cantidad de temas.
+            Esto evita errores si el usuario no ingresa nada.*/
           }
           try {
-            // try y catch se utilizan para manejar errores que puedan ocurrir al intentar convertir cantidadInput de String a int utilizando int.parse().
+            // try y catch se utilizan para manejar errores que puedan ocurrir
+            // al intentar convertir cantidadInput de String a int utilizando int.parse().
             cantidadTemas = int.parse(cantidadInput);
           } catch (e) {
             print("Ingrese un número válido. Intenta nuevamente.");
             continue;
             /*Si int.parse() falla (por ejemplo, si el usuario ingresa algo que no es un número),
-       el código dentro de catch se ejecuta. En este caso, muestra un mensaje de error y continue hace que se vuelva a solicitar la cantidad de temas.*/
+            el código dentro de catch se ejecuta. En este caso, 
+            muestra un mensaje de error y continue hace que se vuelva a solicitar la cantidad de temas.*/
           }
           for (var i = 0; i < cantidadTemas; i++) {
             print("Nombre del tema ${i + 1}:");
             tema = stdin.readLineSync();
             print('-' * 50);
-            listaTemas.add(tema ??
-                ""); // listaTemas.add(tema ?? "") agrega el valor de tema a listaTemas. Si tema es null, agrega una cadena vacía "".
+            listaTemas.add(tema ?? "");
+            // listaTemas.add(tema ?? "") agrega el valor de tema a listaTemas.
+            //Si tema es null, agrega una cadena vacía "".
+
             /* Después de que el usuario ingresa la cantidad de temas y sus nombres,
-       este bucle for solicita cada nombre de tema y lo agrega a listaTemas.
-       El ?? "" asegura que no se agreguen valores null a la lista, lo cual podría ocurrir si el usuario simplemente presiona Enter sin ingresar un nombre.*/
+            este bucle for solicita cada nombre de tema y lo agrega a listaTemas.
+            El ?? "" asegura que no se agreguen valores null a la lista, lo cual
+            podría ocurrir si el usuario simplemente presiona Enter sin ingresar un nombre.*/
           }
           if (listaTemas.every((elemento) => elemento!.isEmpty)) {
-            // every() es un método de la clase List que verifica si todos los elementos de la lista cumplen con cierta condición especificada por una función (element.isEmpty en este caso).
+            // every() es un método de la clase List que verifica si todos los
+            //elementos de la lista cumplen con cierta condición especificada
+            //por una función (element.isEmpty en este caso).
+
             print("La lista no tiene contenidos válidos. Intenta nuevamente.");
             listaTemas.clear();
             /*Después de que el usuario ingresa los nombres de los temas,
-       este if verifica si todos los elementos de listaTemas son cadenas vacías (element.isEmpty).
-       Si es así, muestra un mensaje de error y limpia la lista (listaTemas.clear()), lo que permite que el bucle while vuelva a solicitar los temas.*/
+            este if verifica si todos los elementos de listaTemas son cadenas vacías (element.isEmpty).
+            Si es así, muestra un mensaje de error y limpia la lista (listaTemas.clear()),
+            lo que permite que el bucle while vuelva a solicitar los temas.*/
           }
         }
 
         print("La lista de temas es la siguiente:");
         print(listaTemas);
         print("");
+
         //CRUD
         do {
           print("*" * 50);
@@ -150,13 +162,14 @@ void main(List<String> args) {
               // Crear tema
               print("Nombre del nuevo tema:");
               try {
-                tema = stdin
-                    .readLineSync()!
-                    .trim(); // Se utiliza trim() para eliminar espacios en blanco al inicio y al final.
+                tema = stdin.readLineSync()!.trim();
+                // Se utiliza trim() para eliminar espacios en blanco al inicio y al final.
                 if (tema.isEmpty) {
                   // si la variable "tema" esta vacia.
-                  throw Exception(
-                      "No ingresaste un nombre válido."); //throw exception, una excepcion. Lanzar una excepción detiene la ejecución normal del programa y pasa el control al bloque catch más cercano que pueda manejar esta excepción.
+                  throw Exception("No ingresaste un nombre válido.");
+                  //throw exception, una excepcion. Lanzar una excepción detiene
+                  // la ejecución normal del programa y pasa el control al bloque
+                  // catch más cercano que pueda manejar esta excepción.
                 }
                 listaTemas.add(tema);
                 print("-" * 50);
@@ -164,8 +177,8 @@ void main(List<String> args) {
                 print('');
               } catch (e) {
                 //captura cualquier excepcion
-                print(
-                    "Error: ${e.toString()}. Intenta nuevamente."); //indica la excepcion y se agrega al throw
+                print("Error: ${e.toString()}. Intenta nuevamente.");
+                //indica la excepcion y se agrega al throw
               }
               break;
             case '2':
@@ -202,7 +215,7 @@ void main(List<String> args) {
             case '4':
               // Eliminar tema
               print('');
-              print("¿Qué número de tema deseas eliminar?");
+              print("¿Qué número de tema desea eliminar?");
               numeroInput = stdin.readLineSync();
               try {
                 numero = int.parse(numeroInput!);
@@ -217,12 +230,13 @@ void main(List<String> args) {
               }
               print('-' * 50);
 
-              listaTemas.removeAt(numero -
-                  1); //como las listas inician en 0, se necesita restar 1 para que tome el dato correcto en la posicion.
+              listaTemas.removeAt(numero - 1);
+              //como las listas inician en 0, se necesita restar 1 para que tome el dato correcto en la posicion.
               print("Tema eliminado.");
               print('');
-              /*Cuando llamas a removeAt(index), el método elimina el elemento en la posición index y 
-              ajusta el tamaño de la lista en consecuencia. Todos los elementos después de index se desplazan una posición hacia la izquierda.*/
+              /*Cuando llamas a removeAt(index), el método elimina el elemento 
+              en la posición index y ajusta el tamaño de la lista en consecuencia.
+              Todos los elementos después de index se desplazan una posición hacia la izquierda.*/
               break;
             case '5':
               // Salir
@@ -232,28 +246,28 @@ void main(List<String> args) {
               break;
             default:
               print('');
-              print("Opción no válida. Intenta nuevamente.");
+              print("Opción no válida. Intente nuevamente.");
               print('');
           }
         } while (opcionCase1 != '5');
         break;
-      case 2:
+      case '2':
         while (aprendices.isEmpty) {
           print("*" * 50);
           print("Menú para ingresar aprendices");
           print('-' * 50);
-          print("¿Cuántos aprendices agregarás?");
+          print("¿Cuántos aprendices agregará?");
           cantidadInput = stdin.readLineSync();
           print('-' * 50);
           if (cantidadInput == null || cantidadInput.isEmpty) {
-            print("No ingresaste ningún valor. Intenta nuevamente.");
+            print("No ingresó ningún valor. Intente nuevamente.");
             continue;
           }
 
           try {
             cantidadAprendices = int.parse(cantidadInput);
           } catch (e) {
-            print("Ingrese un número válido. Intenta nuevamente.");
+            print("Ingrese un número válido. Intente nuevamente.");
             continue;
           }
 
@@ -297,7 +311,7 @@ void main(List<String> args) {
                 if (aprendiz.isEmpty) {
                   throw Exception("No ingresaste un nombre válido.");
                 }
-                aprendices.add(tema);
+                aprendices.add(aprendiz);
                 print("-" * 50);
                 print("aprendiz agregado.");
               } catch (e) {
@@ -305,7 +319,6 @@ void main(List<String> args) {
               }
               print('');
               break;
-
             case '2':
               // Leer aprendices
               print('');
@@ -313,7 +326,6 @@ void main(List<String> args) {
               print(aprendices);
               print('');
               break;
-
             case '3':
               // Actualizar aprendiz
               print("¿Qué número de aprendiz deseas actualizar?");
@@ -325,13 +337,11 @@ void main(List<String> args) {
                 print("Ingrese un número válido.");
                 continue;
               }
-
               if (numero < 1 || numero > aprendices.length) {
                 print("Índice fuera de rango.");
                 print("*" * 50);
                 continue;
               }
-
               print("Ingrese el nuevo nombre del aprendiz ${numero}:");
               aprendiz = stdin.readLineSync();
               print("-" * 50);
@@ -339,7 +349,6 @@ void main(List<String> args) {
               print("Aprendiz actualizado.");
               print('');
               break;
-
             case '4':
               // Eliminar aprendiz
               print("¿Qué número de aprendiz deseas eliminar?");
@@ -360,14 +369,12 @@ void main(List<String> args) {
               print("Aprendiz eliminado.");
               print('');
               break;
-
             case '5':
               // Salir
               print("");
               print("Saliendo...");
               print("");
               break;
-
             default:
               print("");
               print("Opción no válida. Intenta nuevamente.");
@@ -375,7 +382,7 @@ void main(List<String> args) {
           }
         } while (opcionCase2 != '5');
         break;
-      case 3:
+      case '3':
         print('-' * 50);
         print('');
         print("La lista de temas:");
@@ -384,7 +391,10 @@ void main(List<String> args) {
         print('-' * 50);
         print('');
         print("La Lista de aprendices:");
-        print(listaPredefinidaAprendices);
+        for (int i = 0; i < listaPredefinidaAprendices.length; i++) {
+          stdout.write("${i + 1}. ");
+          print(listaPredefinidaAprendices[i]);
+        }
         print('');
         print("*" * 50);
         do {
@@ -396,11 +406,12 @@ void main(List<String> args) {
           print('4. Salir');
           print('-' * 50);
           print("Digite la opción");
-          option2 = int.parse(stdin.readLineSync()!);
+          option2 = stdin.readLineSync()!;
           print("*" * 50);
           print('');
           switch (option2) {
-            case 1:
+            case '1':
+              // Modificar Temas predefinidos
               do {
                 print('Lista de temas actual');
                 print(listaTemasPredefinida);
@@ -411,10 +422,11 @@ void main(List<String> args) {
                 print('4. Salir');
                 print('-' * 50);
                 print('Digite la opción');
-                option3 = int.parse(stdin.readLineSync()!);
+                option3 = stdin.readLineSync()!;
                 print('*' * 50);
+
                 switch (option3) {
-                  case 1:
+                  case '1':
                     // Actualizar tema
                     print("");
                     print("¿Qué número de tema deseas actualizar?");
@@ -440,7 +452,7 @@ void main(List<String> args) {
                     print("Tema actualizado.");
                     print("");
                     break;
-                  case 2:
+                  case '2':
                     // Eliminar un tema
                     print('');
                     print("¿Qué número de tema deseas eliminar?");
@@ -461,13 +473,12 @@ void main(List<String> args) {
                     print("Tema eliminado.");
                     print('-' * 50);
                     break;
-                  case 3:
+                  case '3':
                     // Agregar tema
                     print("Nombre del nuevo tema:");
                     try {
                       tema = stdin.readLineSync()!.trim();
                       if (tema.isEmpty) {
-                        // si la variable "tema" esta vacia.
                         throw Exception("No ingresaste un nombre válido.");
                       }
                       listaTemasPredefinida.add(tema);
@@ -476,26 +487,32 @@ void main(List<String> args) {
                       print('');
                     } catch (e) {
                       //captura cualquier excepcion
-                      print(
-                          "Error: ${e.toString()}. Intenta nuevamente."); //indica la excepcion y se agrega al throw
+                      print("Error: ${e.toString()}. Intenta nuevamente.");
+                      //indica la excepcion y se agrega al throw
                     }
                     break;
-                  case 4:
+                  case '4':
+                    // Para salir del menu de modificacion de temas
                     print('');
                     print("Volviendo al menu anterior");
                     print('');
                     break;
                   default:
+                    //Por si ingresa un digito incorrecto
                     print('');
                     print('Opción incorrecta, intentelo de nuevo');
                     print('');
                 }
-              } while (option3 != 4);
+              } while (option3 != '4');
               break;
-            case 2:
+            case '2':
+              // Para modificar Aprendices predefinidos
               do {
                 print('Lista de aprendices actual');
-                print(listaPredefinidaAprendices);
+                for (int i = 0; i < listaPredefinidaAprendices.length; i++) {
+                  stdout.write("${i + 1}. ");
+                  print(listaPredefinidaAprendices[i]);
+                }
                 print('-' * 50);
                 print('1. Para editar un aprendiz');
                 print('2. Para eliminar un aprendiz');
@@ -503,10 +520,11 @@ void main(List<String> args) {
                 print('4. Salir');
                 print('-' * 50);
                 print('Digite la opción');
-                option3 = int.parse(stdin.readLineSync()!);
+                option3 = stdin.readLineSync()!;
                 print('-' * 50);
                 switch (option3) {
-                  case 1:
+                  case '1':
+                    // Para editar un aprendiz
                     print("¿Qué número de aprendiz deseas cambiar?");
                     numeroInput = stdin.readLineSync();
                     try {
@@ -529,7 +547,8 @@ void main(List<String> args) {
                     print("Aprendiz actualizado.");
                     print("*" * 50);
                     break;
-                  case 2:
+                  case '2':
+                    // Para eliminar un aprendiz
                     print("¿Qué número de aprendiz deseas eliminar?");
                     numeroInput = stdin.readLineSync();
                     try {
@@ -548,7 +567,8 @@ void main(List<String> args) {
                     listaPredefinidaAprendices.removeAt(numero - 1);
                     print("Aprendiz eliminado.");
                     break;
-                  case 3:
+                  case '3':
+                    // Para agregar un nuevo aprendiz
                     print("Nombre del nuevo aprendiz:");
                     try {
                       aprendiz = stdin.readLineSync()!.trim();
@@ -563,12 +583,20 @@ void main(List<String> args) {
                       print("Error: ${e.toString()}. Intenta nuevamente.");
                     }
                     break;
+                  case '4':
+                    //Para Salir del menu de modificacion de aprendices
+                    print('');
+                    print("Volviendo al menu anterior");
+                    print('');
+                    break;
                   default:
+                    // Por si ingresa un digito incorrecto
                     print("Opción incorrecta, intentelo de nuevo");
                 }
-              } while (option3 != 4);
+              } while (option3 != '4');
               break;
-            case 3:
+            case '3':
+              // Menu para editar la cantidad de participantes por grupo
               do {
                 print('Lista de cantidad de participantes por grupo, actual');
                 print(cantGruposPorExposicion);
@@ -580,10 +608,12 @@ void main(List<String> args) {
                 print('-' * 50);
                 print('Digite la opción');
                 print('-' * 50);
-                option3 = int.parse(stdin.readLineSync()!);
+                option3 = stdin.readLineSync()!;
                 switch (option3) {
-                  case 1:
-                    print('Que número de grupo desea cambiar');
+                  // Para editar la cantidad de participantes por grupo
+                  case '1':
+                    print(
+                        'Que número de grupo desea cambiar el maximo de participantes');
                     numeroInput = stdin.readLineSync();
                     try {
                       numero = int.parse(numeroInput!);
@@ -598,13 +628,15 @@ void main(List<String> args) {
                       continue;
                     }
 
-                    print("Ingrese el nuevo nombre del aprendiz ${numero}:");
+                    print(
+                        "Ingrese el nuevo número de participantes ${numero}:");
                     participantes = int.parse(stdin.readLineSync()!);
                     cantGruposPorExposicion[numero - 1] = participantes;
-                    print("Aprendiz actualizado.");
+                    print("Cantidad actualizada.");
                     print("*" * 50);
                     break;
-                  case 2:
+                  // Para eliminar la cantidad de participantes de la lista
+                  case '2':
                     print("¿Qué número de grupo deseas eliminar?");
                     numeroInput = stdin.readLineSync();
                     try {
@@ -622,7 +654,8 @@ void main(List<String> args) {
                     cantGruposPorExposicion.removeAt(numero - 1);
                     print("Grupo eliminado.");
                     break;
-                  case 3:
+                  //  Para agregar una nueva cantidad de participantes a la lista
+                  case '3':
                     print("numero para el nuevo grupo:");
                     try {
                       participantes = int.parse(stdin.readLineSync()!.trim());
@@ -632,56 +665,64 @@ void main(List<String> args) {
                       }
                       cantGruposPorExposicion.add(participantes);
                       print("*" * 50);
-                      print("Tema agregado.");
+                      print("numero de participantes  agregado.");
                       print("*" * 50);
                     } catch (e) {
                       //captura cualquier excepcion
-                      print(
-                          "Error: ${e.toString()}. Intenta nuevamente."); //indica la excepcion y se agrega al throw
+                      print("Error: ${e.toString()}. Intenta nuevamente.");
+                      //indica la excepcion y se agrega al throw
                     }
                     break;
-                  case 4:
+                  case '4':
+                    // Para salir del menu de modificación de cantidad de participantes
                     print('');
                     print("Volviendo al menu anterior");
                     print('');
                     break;
                   default:
+                    // Por si ingresa un digito incorrecto
                     print('');
                     print('Opción incorrecta, intentelo de nuevo');
                     print('');
                 }
-              } while (option3 != 5);
+              } while (option3 != '4');
               break;
-            case 4:
+            // Para volver al menu principal
+            case '4':
               print('');
               print('volviendo al menú anterior');
               print('');
               break;
+            // Por si ingresa un numero incorrecto
             default:
               print('');
               print('Opción incorrecta, intentelo de nuevo');
               print('');
           }
-        } while (option2 != 5);
+        } while (option2 != '4');
         break;
-      case 4:
+      case '4':
         do {
           print('Submenú para Generar los grupos');
           print('1. Si desea continuar y generarlos');
           print('2. Si desea salir');
-
-          option2 = int.parse(stdin.readLineSync()!);
+          option2 = stdin.readLineSync()!;
 
           switch (option2) {
-            case 1:
+            case '1':
               print(
                   'Desea utilizar las listas predefinidas para generar los grupos?');
-              respuesta = stdin.readLineSync();
-              if (respuesta!.toUpperCase() == 'SI') {
+              respuesta = stdin.readLineSync()!.toUpperCase();
+              if (respuesta == 'SI') {
                 print('Utilizará las listas predefinidas');
                 print('-' * 50);
               } else if (respuesta == 'NO') {
                 print('Utilizará las listas creadas');
+                if (aprendices.length <= 0 || listaTemas.length <= 0) {
+                  print(
+                      "Las listas no están asignadas manualmente, inténtelo de nuevo");
+                  continue;
+                }
               } else {
                 print('Opcion incorrecta intentelo de nuevo');
                 continue;
@@ -689,6 +730,9 @@ void main(List<String> args) {
 
               print("Confirme cuántos intentos desea realizar:");
               intentos = int.parse(stdin.readLineSync()!);
+
+              // Reinicia el contador antes de entrar en el ciclo interno
+              contador = 0;
               do {
                 grupos1 = [];
                 grupos2 = [];
@@ -696,16 +740,19 @@ void main(List<String> args) {
                 conteoAprendices2 = 0;
                 if (respuesta.toUpperCase() == 'SI') {
                   listaPredefinidaAprendices.shuffle();
+                  // el .shuffle se utiliza para mezclar de manera aleatoria
+                  // la lista
 
                   for (var i = 0; i < listaTemasPredefinida.length; i++) {
                     limite = cantGruposPorExposicion[i];
                     List<String?> grupo1 = [];
-
                     for (var j = 0; j < limite; j++) {
                       if (conteoAprendices1 <
                           listaPredefinidaAprendices.length) {
                         grupo1
                             .add(listaPredefinidaAprendices[conteoAprendices1]);
+                        //conteoAprendices1 se utiliza para acceder a un elemento
+                        //específico dentro de la lista listaPredefinidaAprendices
                         conteoAprendices1++;
                       }
                     }
@@ -716,20 +763,34 @@ void main(List<String> args) {
                   for (var i = 0; i < grupos1.length; i++) {
                     print('-' * 50);
                     print('Grupo para ${listaTemasPredefinida[i]}:');
-                    print(grupos1[i]);
+                    print('${grupos1[i]}');
                   }
                   print('*' * 50);
                 } else if (respuesta.toUpperCase() == 'NO') {
-                  if (aprendices.length <= 0 || listaTemas.length <= 0) {
-                    print(
-                        "Las listas no están asignadas manualmente, inténtelo de nuevo");
-                    continue;
-                  }
+                  cantGruposPorExposicion2 = [];
                   for (var i = 0; i < listaTemas.length; i++) {
-                    print(
-                        'Indique cuántos integrantes tendrá el tema ${listaTemas[i]}');
-                    cantidad = int.parse(stdin.readLineSync()!);
-                    cantGruposPorExposicion2.add(cantidad);
+                    cantidad2 = 0;
+                    while (true) {
+                      print(
+                          'Indique cuántos integrantes tendrá el tema ${listaTemas[i]}');
+                      cantidad = stdin.readLineSync()!;
+                      /*En este caso como se van a asignar los grupos con las listas que
+                    creamos, tendremos que preguntar cuantos integrantes tendra cada tema */
+                      if (cantidad.isEmpty) { 
+                        print(
+                            "No ingresaste ningún valor. Intenta nuevamente.");
+                        continue;
+                      }
+
+                      try {
+                        cantidad2 = int.parse(cantidad);
+                        break;
+                      } catch (e) {
+                        print("Ingrese un número válido. Intenta nuevamente.");
+                        continue;
+                      }
+                    }
+                    cantGruposPorExposicion2.add(cantidad2);
                   }
 
                   print(listaTemas);
@@ -759,17 +820,17 @@ void main(List<String> args) {
                 contador++;
               } while (contador < intentos);
               break;
-            case 2:
+            case '2':
               print('Volviendo al menú principal');
               break;
             default:
               print('Obción incorrecta intente de nuevo');
           }
-        } while (option2 != 2);
+        } while (option2 != '2');
         break;
-      case 5:
+      case '5':
         print('');
-        print('Volviendo al menú princial');
+        print('Bye bye ;D');
         print('');
         break;
       default:
@@ -777,5 +838,5 @@ void main(List<String> args) {
         print('Opción incorrecta, intentelo de nuevo');
         print('');
     }
-  } while (option1 != 5);
+  } while (option1 != '5');
 }
